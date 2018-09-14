@@ -1,7 +1,7 @@
 import sys
 import xmltodict
 
-print("Welcome to the FSMD simulator! - Version ?? - Designed by ??")
+print("Welcome to the FSMD simulator! - Version 0.1 - Designed by Blue Team")
 
 if len(sys.argv) < 3:
     print('Too few arguments.')
@@ -236,7 +236,25 @@ print('\n---Start simulation---')
 
 ######################################
 ######################################
-# Write your code here!
+while(cycle < iterations):
+    print("Cycle number: {}".format(cycle + 1))
+    print("Current state: " + state)
+    for t in fsmd[state]:
+        if evaluate_condition(t["condition"]):
+            execute_instruction(t['instruction'])
+            print(variables, t['instruction'])
+            state = t['nextstate']
+            break
+
+
+
+    cycle += 1
+
+
+
+
+
+
 ######################################
 ######################################
 
@@ -244,7 +262,7 @@ print('\n---End of simulation---')
 
 #
 # Description:
-# This is a code snipppet used to updste the inputs values according to the
+# This is a code snippet used to update the inputs values according to the
 # stimuli file content. You can see here how the 'fsmd_stim' variable is used.
 #
 '''
