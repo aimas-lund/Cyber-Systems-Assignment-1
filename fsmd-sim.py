@@ -6,17 +6,17 @@ print("Welcome to the FSMD simulator! - Version 0.1 - Designed by Blue Team")
 if len(sys.argv) < 3:
     print('Too few arguments.')
     sys.exit(-1)
-elif (len(sys.argv) >4):
+elif (len(sys.argv) > 4):
     print('Too many arguments.')
     sys.exit(-1)
 
 iterations = int(sys.argv[1])
 
-#Parsing the FSMD description file
+# Parsing the FSMD description file
 with open(sys.argv[2]) as fd:
     fsmd_des = xmltodict.parse(fd.read())
 
-#Parsing the stimuli file
+# Parsing the stimuli file
 fsmd_stim = {}
 if len(sys.argv) == 4:
     with open(sys.argv[3]) as fd:
@@ -46,9 +46,9 @@ print('  ' + initial_state)
 # names and value. The default value is 0.
 #
 inputs = {}
-if(fsmd_des['fsmddescription']['inputlist'] is None):
+if (fsmd_des['fsmddescription']['inputlist'] is None):
     inputs = {}
-    #No elements
+    # No elements
 else:
     if type(fsmd_des['fsmddescription']['inputlist']['input']) is str:
         # One element
@@ -67,9 +67,9 @@ for input_i in inputs:
 # names and value. The default value is 0.
 #
 variables = {}
-if(fsmd_des['fsmddescription']['variablelist'] is None):
+if (fsmd_des['fsmddescription']['variablelist'] is None):
     variables = {}
-    #No elements
+    # No elements
 else:
     if type(fsmd_des['fsmddescription']['variablelist']['variable']) is str:
         # One element
@@ -88,9 +88,9 @@ for variable in variables:
 # defined operations names and expressions.
 #
 operations = {}
-if(fsmd_des['fsmddescription']['operationlist'] is None):
+if (fsmd_des['fsmddescription']['operationlist'] is None):
     operations = {}
-    #No elements
+    # No elements
 else:
     for operation in fsmd_des['fsmddescription']['operationlist']['operation']:
         if type(operation) is str:
@@ -111,17 +111,18 @@ for operation in operations:
 # defined conditions names and expressions.
 #
 conditions = {}
-if(fsmd_des['fsmddescription']['conditionlist'] is None):
+if (fsmd_des['fsmddescription']['conditionlist'] is None):
     conditions = {}
-    #No elements
+    # No elements
 else:
     for condition in fsmd_des['fsmddescription']['conditionlist']['condition']:
         if type(condition) is str:
-            #Only one element
-            conditions[fsmd_des['fsmddescription']['conditionlist']['condition']['name']] = fsmd_des['fsmddescription']['conditionlist']['condition']['expression']
+            # Only one element
+            conditions[fsmd_des['fsmddescription']['conditionlist']['condition']['name']] = \
+            fsmd_des['fsmddescription']['conditionlist']['condition']['expression']
             break
         else:
-            #More than 1 element
+            # More than 1 element
             conditions[condition['name']] = condition['expression']
 print("Conditions:")
 for condition in conditions:
@@ -138,21 +139,22 @@ for state in states:
     fsmd[state] = []
     for transition in fsmd_des['fsmddescription']['fsmd'][state]['transition']:
         if type(transition) is str:
-            #Only one element
+            # Only one element
             fsmd[state].append({'condition': fsmd_des['fsmddescription']['fsmd'][state]['transition']['condition'],
                                 'instruction': fsmd_des['fsmddescription']['fsmd'][state]['transition']['instruction'],
                                 'nextstate': fsmd_des['fsmddescription']['fsmd'][state]['transition']['nextstate']})
             break
         else:
-            #More than 1 element
-            fsmd[state].append({'condition' : transition['condition'],
-                                'instruction' : transition['instruction'],
-                                'nextstate' : transition['nextstate']})
+            # More than 1 element
+            fsmd[state].append({'condition': transition['condition'],
+                                'instruction': transition['instruction'],
+                                'nextstate': transition['nextstate']})
 print("FSMD transitions table:")
 for state in fsmd:
     print('  ' + state)
     for transition in fsmd[state]:
-        print('    ' + 'nextstate: ' + transition['nextstate'] + ', condition: ' + transition['condition'] + ', instruction: ' + transition['instruction'])
+        print('    ' + 'nextstate: ' + transition['nextstate'] + ', condition: ' + transition[
+            'condition'] + ', instruction: ' + transition['instruction'])
 
 
 #
@@ -205,14 +207,14 @@ def execute_instruction(instruction):
 # It returns True or False
 #
 def evaluate_condition(condition):
-    if condition == 'True' or condition=='true' or condition == 1:
+    if condition == 'True' or condition == 'true' or condition == 1:
         return True
-    if condition == 'False' or condition=='false' or condition == 0:
+    if condition == 'False' or condition == 'false' or condition == 0:
         return False
     condition_explicit = condition
     for element in conditions:
         condition_explicit = condition_explicit.replace(element, conditions[element])
-    #print('----' + condition_explicit)
+    # print('----' + condition_explicit)
     return eval(condition_explicit, {'__builtins__': None}, merge_dicts(variables, inputs))
 
 
@@ -236,24 +238,19 @@ print('\n---Start simulation---')
 
 ######################################
 ######################################
-while(cycle < iterations):
+while cycle < iterations:
+    print("----------------------------")
     print("Cycle number: {}".format(cycle + 1))
-    print("Current state: " + state)
-    for t in fsmd[state]:
-        if evaluate_condition(t["condition"]):
-            execute_instruction(t['instruction'])
-            print(variables, t['instruction'])
-            state = t['nextstate']
+    for t in fsmd[state]:  # iterate over t number of operations for current state
+        if evaluate_condition(t["condition"]):  # use evaluate_condition func. to check whether any condition = True
+            execute_instruction(t['instruction'])  # use execute_instruction func. to execute corresponding instruction
+            print("Current state: " + state)
+            print("Instruction executed: {}".format(t['instruction']))
+            print("New variable values: {}".format(variables))
+            state = t['nextstate']  # change the state variable to given next state
             break
 
-
-
     cycle += 1
-
-
-
-
-
 
 ######################################
 ######################################
