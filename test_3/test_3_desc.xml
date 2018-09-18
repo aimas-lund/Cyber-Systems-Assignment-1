@@ -1,0 +1,153 @@
+<fsmddescription>
+
+  <statelist>
+    <state>INITIALIZE</state>
+    <state>COMPUTE</state>
+    <state>FALSE</state>
+    <state>YESNOPRIME</state>
+    <state>YESPRIME</state>
+    <state>NOPRIME</state>
+    <state>FINISH</state>
+  </statelist>
+
+  <initialstate>INITIALIZE</initialstate>
+
+  <inputlist>
+    <input>in_n</input>
+    <input>in_i</input>
+  </inputlist>
+
+  <variablelist>
+    <variable>var_n</variable>
+    <variable>var_i</variable>
+  </variablelist>
+
+  <operationlist>
+    <operation>
+      <name>init_n</name>
+      <expression>var_n = in_n</expression>
+    </operation>
+    <operation>
+      <name>init_i</name>
+      <expression>var_i = in_i</expression>
+    </operation>
+    <operation>
+      <name>n_too_small</name>
+      <expression>NOP</expression>
+    </operation>
+    <operation>
+      <name>n_test_if_0</name>
+      <expression>i +=1 </expression>
+    </operation>
+     <operation>
+      <name>n_equal_0</name>
+      <expression>NOP </expression>
+    </operation>
+     <operation>
+      <name>n_prime_yes</name>
+      <expression>NOP </expression>
+    </operation>
+     <operation>
+      <name>n_prime_no</name>
+      <expression>NOP </expression>
+    </operation>
+    </operationlist>
+
+  <conditionlist>
+    <condition>
+      <name>n_smaller_than_1</name>
+      <expression>n &lt; 1</expression>
+    </condition>
+    <condition>
+      <name>N_div_i_not0</name>
+      <expression>n i % &lt; &gt; 0</expression>
+    </condition>
+    <condition>
+      <name>N_div_i_is0</name>
+      <expression>n i % == 0</expression>
+    </condition>
+        <condition>
+      <name>primeYES</name>
+      <expression>n &gt; i</expression>
+    </condition>
+        <condition>
+      <name>primeNO</name>
+      <expression>n == i</expression>
+    </condition>
+  </conditionlist>
+
+  <fsmd>
+    <INITIALIZE>
+      <transition>
+        <condition>True</condition>
+        <instruction>init_i init_n</instruction>
+        <nextstate>COMPUTE</nextstate>
+      </transition>
+    </INITIALIZE>
+
+    <COMPUTE>
+      <transition>
+        <condition>n_smaller_than_1</condition>
+        <instruction>NOP</instruction>
+        <nextstate>FALSE</nextstate>
+      </transition>
+      <transition>
+        <condition>N_div_i_not0</condition>
+        <instruction>n_test_if_0</instruction>
+        <nextstate>COMPUTE</nextstate>
+      </transition>
+      <transition>
+        <condition>N_div_i_is0</condition>
+        <instruction>NOP</instruction>
+        <nextstate>YESNOPRIME</nextstate>
+      </transition>
+    </COMPUTE>
+
+    <FALSE>
+      <transition>
+        <condition>True</condition>
+        <instruction>NOP</instruction>
+        <nextstate>FINISH</nextstate>
+      </transition>
+    </FALSE>
+
+    <YESNOPRIME>
+      <transition>
+        <condition>primeYES</condition>
+        <instruction>NOP</instruction>
+        <nextstate>YESPRIME</nextstate>
+      </transition>
+      <transition>
+        <condition>primeNO</condition>
+        <instruction>NOP</instruction>
+        <nextstate>NOPRIME</nextstate>
+      </transition>
+    </YESNOPRIME>
+    
+    <YESPRIME>
+      <transition>
+        <condition>True</condition>
+        <instruction>NOP</instruction>
+        <nextstate>FINISH</nextstate>
+      </transition>
+    </YESPRIME>
+
+    <NOPRIME>
+      <transition>
+        <condition>True</condition>
+        <instruction>NOP</instruction>
+        <nextstate>FINSIH</nextstate>
+      </transition>
+    </NOPRIME>
+
+
+    <FINISH>
+      <transition>
+        <condition>True</condition>
+        <instruction>NOP</instruction>
+        <nextstate>FINISH</nextstate>
+      </transition>
+    </FINISH>
+  </fsmd>
+
+</fsmddescription>

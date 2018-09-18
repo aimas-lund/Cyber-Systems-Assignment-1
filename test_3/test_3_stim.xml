@@ -1,0 +1,15 @@
+<fsmdstimulus>
+
+  <setinput>
+    <cycle>0</cycle>
+    <expression>in_n = 23</expression>
+  </setinput>
+
+   <setinput>
+    <cycle>0</cycle>
+    <expression>in_i = 2</expression>
+  </setinput>
+
+  <endstate>FINISH</endstate>
+
+</fsmdstimulus>
