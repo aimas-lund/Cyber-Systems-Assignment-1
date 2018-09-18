@@ -60,7 +60,7 @@
     </condition>
     <condition>
       <name>N_div_i_not0</name>
-      <expression>n % i &lt;&gt; 0</expression>
+      <expression>n % i != 0</expression>
     </condition>
     <condition>
       <name>N_div_i_is0</name>
