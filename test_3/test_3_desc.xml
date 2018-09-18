@@ -37,7 +37,7 @@
     </operation>
     <operation>
       <name>n_test_if_0</name>
-      <expression>var_i += 1 </expression>
+      <expression>var_i = var_i + 1 </expression>
     </operation>
      <operation>
       <name>n_equal_0</name>
