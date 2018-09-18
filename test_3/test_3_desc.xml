@@ -136,7 +136,7 @@
       <transition>
         <condition>True</condition>
         <instruction>NOP</instruction>
-        <nextstate>FINSIH</nextstate>
+        <nextstate>FINISH</nextstate>
       </transition>
     </NOPRIME>
 
