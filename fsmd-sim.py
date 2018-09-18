@@ -1,7 +1,7 @@
 import sys
 import xmltodict
 
-print("Welcome to the FSMD simulator! - Version 0.1 - Designed by Blue Team")
+print("Welcome to the FSMD simulator! - Version 1.1 - Designed by Blue Team")
 
 if len(sys.argv) < 3:
     print('Too few arguments.')
@@ -231,38 +231,18 @@ def merge_dicts(*dict_args):
 
 #######################################
 # Start to simulate
-cycle = 0
+cycle = 0  # what cycle in the stimulus file you want to compute
+cyc = 0  # integer to keep track of computation cycles
+finItera = 0  # integer to find the necessary number of cycles to compute algorithm
 state = initial_state
 
 print('\n---Start simulation---')
 
 ######################################
 ######################################
-while cycle < iterations:
-    print("----------------------------")
-    print("Cycle number: {}".format(cycle + 1))
-    for t in fsmd[state]:  # iterate over t number of operations for current state
-        if evaluate_condition(t["condition"]):  # use evaluate_condition func. to check whether any condition = True
-            execute_instruction(t['instruction'])  # use execute_instruction func. to execute corresponding instruction
-            print("Current state: " + state)
-            print("Instruction executed: {}".format(t['instruction']))
-            print("New variable values: {}".format(variables))
-            state = t['nextstate']  # change the state variable to given next state
-            break
-
-    cycle += 1
-
-######################################
-######################################
-
-print('\n---End of simulation---')
-
-#
-# Description:
-# This is a code snippet used to update the inputs values according to the
-# stimuli file content. You can see here how the 'fsmd_stim' variable is used.
-#
-'''
+"""
+Provided stimulus code snippet
+"""
 try:
     if (not(fsmd_stim['fsmdstimulus']['setinput'] is None)):
         for setinput in fsmd_stim['fsmdstimulus']['setinput']:
@@ -277,13 +257,42 @@ try:
                     execute_setinput(setinput['expression'])
 except:
     pass
-'''
+
+"""
+Custom code
+"""
+while cyc < iterations:
+    print("----------------------------")
+    print("Cycle number: {}".format(cyc + 1))
+    for t in fsmd[state]:  # iterate over t number of operations for current state
+        if evaluate_condition(t['condition']):  # use evaluate_condition func. to check whether any condition = True
+            execute_instruction(t['instruction'])  # use execute_instruction func. to execute corresponding instruction
+            print("Current state: " + state)
+            print("Instruction executed: {}".format(t['instruction']))
+            print("New variable values: {}".format(variables))
+            state = t['nextstate']  # change the state variable to given next state
+            break
+    if state.lower() == ('finish' or 'done'):
+        if finItera == 0:
+            finItera = cyc  # save the number of iterations to finish algorithm
+
+    cyc += 1
+
+print("\n----------------------------\n")
+print("Simulation complete!")
+print("Necessary cycles for computation: {}".format(finItera + 1))
+print("Final variable values: {}".format(variables))
+######################################
+######################################
+
+print('\n---End of simulation---')
 
 #
 # Description:
-# This is a code snipppet used to check the endstate value according to the
+# This is a code snippet used to update the inputs values according to the
 # stimuli file content. You can see here how the 'fsmd_stim' variable is used.
 #
+
 '''
 try:
     if (not(fsmd_stim['fsmdstimulus']['endstate'] is None)):
