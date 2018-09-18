@@ -37,19 +37,19 @@
     </operation>
     <operation>
       <name>n_test_if_0</name>
-      <expression>i +=1 </expression>
+      <expression>i += 1 </expression>
     </operation>
      <operation>
       <name>n_equal_0</name>
-      <expression>NOP </expression>
+      <expression>NOP</expression>
     </operation>
      <operation>
       <name>n_prime_yes</name>
-      <expression>NOP </expression>
+      <expression>NOP</expression>
     </operation>
      <operation>
       <name>n_prime_no</name>
-      <expression>NOP </expression>
+      <expression>NOP</expression>
     </operation>
     </operationlist>
 
@@ -60,11 +60,11 @@
     </condition>
     <condition>
       <name>N_div_i_not0</name>
-      <expression>n i % &lt; &gt; 0</expression>
+      <expression>n % i &lt;&gt; 0</expression>
     </condition>
     <condition>
       <name>N_div_i_is0</name>
-      <expression>n i % == 0</expression>
+      <expression>n % i == 0</expression>
     </condition>
         <condition>
       <name>primeYES</name>
