@@ -233,8 +233,9 @@ def merge_dicts(*dict_args):
 # Start to simulate
 cycle = 0  # what cycle in the stimulus file you want to compute
 cyc = 0  # integer to keep track of computation cycles
-finItera = 0  # integer to find the necessary number of cycles to compute algorithm
+finish_cyc = 0  # integer to find the necessary number of cycles to compute algorithm
 state = initial_state
+repeat = True
 
 print('\n---Start simulation---')
 
@@ -242,6 +243,9 @@ print('\n---Start simulation---')
 ######################################
 """
 Provided stimulus code snippet
+"""
+"""
+while repeat:
 """
 try:
     if (not(fsmd_stim['fsmdstimulus']['setinput'] is None)):
@@ -261,27 +265,34 @@ except:
 """
 Custom code
 """
-while cyc < iterations:
+
+while (cyc < iterations) and (not(state.lower() == ('finish' or 'done'))):
     print("----------------------------")
     print("Cycle number: {}".format(cyc + 1))
     for t in fsmd[state]:  # iterate over t number of operations for current state
         if evaluate_condition(t['condition']):  # use evaluate_condition func. to check whether any condition = True
             execute_instruction(t['instruction'])  # use execute_instruction func. to execute corresponding instruction
+
             print("Current state: " + state)
             print("Instruction executed: {}".format(t['instruction']))
             print("New variable values: {}".format(variables))
             state = t['nextstate']  # change the state variable to given next state
             break
-    if state.lower() == ('finish' or 'done'):
-        if finItera == 0:
-            finItera = cyc  # save the number of iterations to finish algorithm
-
     cyc += 1
-
 print("\n----------------------------\n")
 print("Simulation complete!")
-print("Necessary cycles for computation: {}".format(finItera + 1))
+print("Final state: " + state)
+print("Utilized cycles for computation: {}".format(cyc + 1))
 print("Final variable values: {}".format(variables))
+"""
+    try:
+        if (not (fsmd_stim['fsmdstimulus']['endstate'] is None)):
+            if state == fsmd_stim['fsmdstimulus']['endstate']:
+                print('End-state reached.')
+                repeat = False
+    except:
+        pass
+"""
 ######################################
 ######################################
 
