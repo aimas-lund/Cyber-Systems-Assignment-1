@@ -51,6 +51,10 @@
       <name>n_prime_no</name>
       <expression>NOP</expression>
     </operation>
+     <operation>
+      <name>false</name>
+      <expression>var_i = 'false'</expression>
+    </operation>
     </operationlist>
 
   <conditionlist>
@@ -106,7 +110,7 @@
     <FALSE>
       <transition>
         <condition>True</condition>
-        <instruction>NOP</instruction>
+        <instruction>false</instruction>
         <nextstate>FINISH</nextstate>
       </transition>
     </FALSE>
