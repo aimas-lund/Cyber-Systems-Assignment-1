@@ -235,6 +235,7 @@ def merge_dicts(*dict_args):
 cycle = 0  # what cycle in the stimulus file you want to compute
 finish_cycle = 0  # integer to find the necessary number of cycles to compute algorithm
 state = initial_state
+repeat = True
 
 print('\n---Start simulation---')
 
@@ -244,7 +245,7 @@ print('\n---Start simulation---')
 """
 Custom code
 """
-while (cycle < iterations):
+while (cycle < iterations) and (repeat == True):
     print("----------------------------")
     print("Cycle Number: {}".format(cycle))
     print("Current state: " + state)
@@ -264,18 +265,30 @@ while (cycle < iterations):
     except:
         pass
 
-    for t in fsmd[state]:  # iterate over t number of operations for current state
-        if evaluate_condition(t['condition']):  # use evaluate_condition func. to check whether any condition = True
-            execute_instruction(t['instruction'])  # use execute_instruction func. to execute corresponding instruction
-            print("Instruction to be executed: {}".format(t['instruction']))
-            state = t['nextstate']  # change the state variable to given next state
-            break
+    try:
+        for t in fsmd[state]:  # iterate over t number of operations for current state
+            if evaluate_condition(t['condition']):  # use evaluate_condition func. to check whether any condition = True
+                execute_instruction(t['instruction'])  # use execute_instruction func. to execute corresponding instruction
+                print("Instruction to be executed: {}".format(t['instruction']))
+                state = t['nextstate']  # change the state variable to given next state
+                break
+    except:
+        pass
+
     cycle += 1
+
+    try:
+        if (not (fsmd_stim['fsmdstimulus']['endstate'] is None)):
+            if state == fsmd_stim['fsmdstimulus']['endstate']:
+                print('End-state reached.')
+                repeat = False
+    except:
+        pass
 
 print("\n----------------------------\n")
 print("Simulation complete!")
 print("Final state: " + state)
-print("Utilized cycles for computation: {}".format(cycle + 1))
+print("Utilized number of cycles for computation: {}".format(cycle + 1))
 print("Final variable values: {}".format(variables))
 
 ######################################
