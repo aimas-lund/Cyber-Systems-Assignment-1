@@ -60,7 +60,7 @@
   <conditionlist>
     <condition>
       <name>n_smaller_than_1</name>
-      <expression>var_n &lt; 1</expression>
+      <expression>var_n &lt;= 1</expression>
     </condition>
     <condition>
       <name>N_div_i_not0</name>
