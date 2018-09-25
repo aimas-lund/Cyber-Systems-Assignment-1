@@ -55,6 +55,14 @@
       <name>false</name>
       <expression>var_i = False</expression>
     </operation>
+     <operation>
+      <name>yesprime</name>
+      <expression>var_i = 'yes a PRIME!!'</expression>
+    </operation>
+     <operation>
+      <name>noprime</name>
+      <expression>var_i = 'not a prime :('</expression>
+    </operation>
     </operationlist>
 
   <conditionlist>
@@ -131,7 +139,7 @@
     <YESPRIME>
       <transition>
         <condition>True</condition>
-        <instruction>NOP</instruction>
+        <instruction>yesprime</instruction>
         <nextstate>FINISH</nextstate>
       </transition>
     </YESPRIME>
@@ -139,7 +147,7 @@
     <NOPRIME>
       <transition>
         <condition>True</condition>
-        <instruction>NOP</instruction>
+        <instruction>noprime</instruction>
         <nextstate>FINISH</nextstate>
       </transition>
     </NOPRIME>
