@@ -265,7 +265,7 @@ except:
 """
 Custom code
 """
-while (cyc < iterations) and (state.lower() != ('finish' or 'done')):
+while (cyc < iterations) and (state.lower() not in {'done', 'finish'}):
     print("----------------------------")
     print("Cycle number: {}".format(cyc + 1))
     for t in fsmd[state]:  # iterate over t number of operations for current state
