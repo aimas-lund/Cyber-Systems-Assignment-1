@@ -57,11 +57,11 @@
     </operation>
      <operation>
       <name>yesprime</name>
-      <expression>var_i = 'yes a PRIME!!'</expression>
+      <expression>var_i = 'yes_a_PRIME!!'</expression>
     </operation>
      <operation>
       <name>noprime</name>
-      <expression>var_i = 'not a prime :('</expression>
+      <expression>var_i = 'not_a_prime' </expression>
     </operation>
     </operationlist>
 
