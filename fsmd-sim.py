@@ -245,7 +245,7 @@ print('\n---Start simulation---')
 """
 Custom code
 """
-while (cycle < iterations) and (repeat == True):
+while ((cycle+1) < iterations) and (repeat == True):
     print("----------------------------")
     print("Cycle Number: {}".format(cycle))
     print("Current state: " + state)
