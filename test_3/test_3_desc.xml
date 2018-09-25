@@ -67,11 +67,11 @@
       <expression>var_n % var_i == 0</expression>
     </condition>
         <condition>
-      <name>primeYES</name>
+      <name>primeNO</name>
       <expression>var_n &gt; var_i</expression>
     </condition>
         <condition>
-      <name>primeNO</name>
+      <name>primeYES</name>
       <expression>var_n == var_i</expression>
     </condition>
   </conditionlist>
