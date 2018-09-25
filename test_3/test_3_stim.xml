@@ -2,7 +2,7 @@
 
   <setinput>
     <cycle>0</cycle>
-    <expression>in_n = 7853</expression>
+    <expression>in_n = 23</expression>
   </setinput>
 
    <setinput>

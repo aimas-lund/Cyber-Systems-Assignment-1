@@ -240,21 +240,20 @@ print('\n---Start simulation---')
 
 ######################################
 ######################################
-a = time.time()  # make a timestamp before simulation starts
-"""
-Provided stimulus code snippet
-"""
-# This counts for 1 cycle
 
 """
 Custom code
 """
-while (cycle < iterations) and (state.lower() not in {'done', 'finish'}):
+while (cycle < iterations):
+    print("----------------------------")
+    print("Cycle Number: {}".format(cycle))
+    print("Current state: " + state)
+    print("Current variables: {}".format(variables))
     try:
         if (not (fsmd_stim['fsmdstimulus']['setinput'] is None)):
             for setinput in fsmd_stim['fsmdstimulus']['setinput']:
                 if type(setinput) is str:
-                    # Only one element
+                    cycle += 1
                     if int(fsmd_stim['fsmdstimulus']['setinput']['cycle']) == cycle:
                         execute_setinput(fsmd_stim['fsmdstimulus']['setinput']['expression'])
                     break
@@ -264,31 +263,21 @@ while (cycle < iterations) and (state.lower() not in {'done', 'finish'}):
                         execute_setinput(setinput['expression'])
     except:
         pass
-    print("----------------------------")
-    print("Cycle number: {}".format(cycle))
+
     for t in fsmd[state]:  # iterate over t number of operations for current state
         if evaluate_condition(t['condition']):  # use evaluate_condition func. to check whether any condition = True
             execute_instruction(t['instruction'])  # use execute_instruction func. to execute corresponding instruction
-
-            print("Current state: " + state)
-            print("Instruction executed: {}".format(t['instruction']))
-            print("New variable values: {}".format(variables))
+            print("Instruction to be executed: {}".format(t['instruction']))
             state = t['nextstate']  # change the state variable to given next state
             break
     cycle += 1
+
 print("\n----------------------------\n")
+print("Simulation complete!")
+print("Final state: " + state)
+print("Utilized cycles for computation: {}".format(cycle + 1))
+print("Final variable values: {}".format(variables))
 
-if state.lower() in {'done', 'finish'}:
-    print("Simulation complete!")
-    print("Final state: " + state)
-    print("Utilized cycles for computation: {}".format(cycle + 1))
-    print("Final variable values: {}".format(variables))
-else:
-    print("Simulation timed out!")
-    print("Terminated at state: " + state)
-    print("Current variable values: {}".format(variables))
-
-print("Time elapsed for simulation: {:.5f} seconds.".format(time.time()-a))
 ######################################
 ######################################
 
