@@ -53,7 +53,7 @@
     </operation>
      <operation>
       <name>false</name>
-      <expression>var_i = 'false'</expression>
+      <expression>var_i = False</expression>
     </operation>
     </operationlist>
 
