@@ -1,5 +1,6 @@
 import sys
 import xmltodict
+import time
 
 print("Welcome to the FSMD simulator! - Version 1.1 - Designed by Blue Team")
 
@@ -232,42 +233,39 @@ def merge_dicts(*dict_args):
 #######################################
 # Start to simulate
 cycle = 0  # what cycle in the stimulus file you want to compute
-cyc = 0  # integer to keep track of computation cycles
-finish_cyc = 0  # integer to find the necessary number of cycles to compute algorithm
+finish_cycle = 0  # integer to find the necessary number of cycles to compute algorithm
 state = initial_state
-repeat = True
 
 print('\n---Start simulation---')
 
 ######################################
 ######################################
+a = time.time()  # make a timestamp before simulation starts
 """
 Provided stimulus code snippet
 """
-"""
-while repeat:
-"""
-try:
-    if (not(fsmd_stim['fsmdstimulus']['setinput'] is None)):
-        for setinput in fsmd_stim['fsmdstimulus']['setinput']:
-            if type(setinput) is str:
-                #Only one element
-                if int(fsmd_stim['fsmdstimulus']['setinput']['cycle']) == cycle:
-                    execute_setinput(fsmd_stim['fsmdstimulus']['setinput']['expression'])
-                break
-            else:
-                #More than 1 element
-                if int(setinput['cycle']) == cycle:
-                    execute_setinput(setinput['expression'])
-except:
-    pass
+# This counts for 1 cycle
 
 """
 Custom code
 """
-while (cyc < iterations) and (state.lower() not in {'done', 'finish'}):
+while (cycle < iterations) and (state.lower() not in {'done', 'finish'}):
+    try:
+        if (not (fsmd_stim['fsmdstimulus']['setinput'] is None)):
+            for setinput in fsmd_stim['fsmdstimulus']['setinput']:
+                if type(setinput) is str:
+                    # Only one element
+                    if int(fsmd_stim['fsmdstimulus']['setinput']['cycle']) == cycle:
+                        execute_setinput(fsmd_stim['fsmdstimulus']['setinput']['expression'])
+                    break
+                else:
+                    # More than 1 element
+                    if int(setinput['cycle']) == cycle:
+                        execute_setinput(setinput['expression'])
+    except:
+        pass
     print("----------------------------")
-    print("Cycle number: {}".format(cyc + 1))
+    print("Cycle number: {}".format(cycle))
     for t in fsmd[state]:  # iterate over t number of operations for current state
         if evaluate_condition(t['condition']):  # use evaluate_condition func. to check whether any condition = True
             execute_instruction(t['instruction'])  # use execute_instruction func. to execute corresponding instruction
@@ -277,38 +275,21 @@ while (cyc < iterations) and (state.lower() not in {'done', 'finish'}):
             print("New variable values: {}".format(variables))
             state = t['nextstate']  # change the state variable to given next state
             break
-    cyc += 1
+    cycle += 1
 print("\n----------------------------\n")
-print("Simulation complete!")
-print("Final state: " + state)
-print("Utilized cycles for computation: {}".format(cyc + 1))
-print("Final variable values: {}".format(variables))
-"""
-    try:
-        if (not (fsmd_stim['fsmdstimulus']['endstate'] is None)):
-            if state == fsmd_stim['fsmdstimulus']['endstate']:
-                print('End-state reached.')
-                repeat = False
-    except:
-        pass
-"""
+
+if state.lower() in {'done', 'finish'}:
+    print("Simulation complete!")
+    print("Final state: " + state)
+    print("Utilized cycles for computation: {}".format(cycle + 1))
+    print("Final variable values: {}".format(variables))
+else:
+    print("Simulation timed out!")
+    print("Terminated at state: " + state)
+    print("Current variable values: {}".format(variables))
+
+print("Time elapsed for simulation: {:.5f} seconds.".format(time.time()-a))
 ######################################
 ######################################
 
 print('\n---End of simulation---')
-
-#
-# Description:
-# This is a code snippet used to update the inputs values according to the
-# stimuli file content. You can see here how the 'fsmd_stim' variable is used.
-#
-
-'''
-try:
-    if (not(fsmd_stim['fsmdstimulus']['endstate'] is None)):
-        if state == fsmd_stim['fsmdstimulus']['endstate']:
-            print('End-state reached.')
-            repeat = False
-except:
-    pass
-'''
