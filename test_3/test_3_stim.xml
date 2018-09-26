@@ -9,6 +9,16 @@
     <cycle>0</cycle>
     <expression>in_i = 2</expression>
   </setinput>
+  
+  <setinput>
+    <cycle>1</cycle>
+    <expression>in_A = 0</expression>
+  </setinput>
+
+  <setinput>
+    <cycle>1</cycle>
+    <expression>in_B = 0</expression>
+  </setinput>
 
   <endstate>FINISH</endstate>
 
