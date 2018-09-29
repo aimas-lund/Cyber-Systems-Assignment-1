@@ -1,6 +1,5 @@
 import sys
 import xmltodict
-import time
 
 print("Welcome to the FSMD simulator! - Version 1.1 - Designed by Blue Team")
 
