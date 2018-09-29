@@ -44,14 +44,6 @@
       <expression>NOP</expression>
     </operation>
      <operation>
-      <name>n_prime_yes</name>
-      <expression>NOP</expression>
-    </operation>
-     <operation>
-      <name>n_prime_no</name>
-      <expression>NOP</expression>
-    </operation>
-     <operation>
       <name>false</name>
       <expression>var_i = False</expression>
     </operation>
